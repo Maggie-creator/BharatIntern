@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+   <head>
+      <meta charset="utf-8">
+      <meta content="width=device-width, initial-scale=1.0" name="viewport">
+      <title>Weather Forecast</title>
+      <meta content="weather" name="description">
+      <meta content="weather forecast" name="keywords">
+      <!-- FAVICONS -->
+      <link href="assets/img/favicon.jpg" rel="icon">
+      <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700iRoboto:300,300i,400,400i,500,500i,700,700i&display=swap" rel="stylesheet">
+      <!-- Vendor CSS Files -->
+      <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+      <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+      <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <!--CSS-->
+      <link href="assets/css/style.css" rel="stylesheet">
+   </head>
+   <body>
+      <!-- ======= Hero Section ======= -->
+      <section id="hero" class="d-flex justify-cntent-center align-items-center">
+         <div id="heroCarousel" class="container carousel carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+               <div class="carousel-container">
+                  <h2 class="animate__animated animate__fadeInDown"><span>Weather Forecast Website</span></h2>
+                  <p class="animate__animated animate__fadeInUp">The most reliable weather forecast for your city. Type your city into the box and watch the weather forecast unfold for you.</p>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!--WEATHER BOX-->
+      <div id="weather-container">
+         <label for="city">Enter City:</label>
+         <input type="text" id="city" placeholder="Enter city name">
+         <button onclick="getWeather()">Get Weather</button>
+         <div id="weather-info">
+            <!-- Weather information will be displayed here -->
+         </div>
+      </div>
+      <script>
+         function getWeather() {
+             const apiKey = 'd56c34996de7ebc7fdb65e07dcdb0e68'; 
+             const city = document.getElementById('city').value;
+         
+             if (!city) {
+                 alert('Please enter a city name');
+                 return;
+             }
+         
+             const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+         
+             fetch(apiUrl)
+                 .then(response => response.json())
+                 .then(data => {
+                     const weatherInfo = document.getElementById('weather-info');
+                     weatherInfo.innerHTML = `
+                         <h2>${data.name}, ${data.sys.country}</h2>
+                         <p>Temperature: ${data.main.temp} °C</p>
+                         <p>Weather: ${data.weather[0].description}</p>
+                     `;
+                 })
+                 .catch(error => {
+                     console.error('Error fetching weather data:', error);
+                     alert('Error fetching weather data. Please try again.');
+                 });
+         }
+      </script>
+      <!-- JAVASCRIPT -->
+      <script src="assets/vendor/aos/aos.js"></script>
+      <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+   </body>
+</html>
